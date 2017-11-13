@@ -57,10 +57,10 @@
                 android:layout_margin="4dp" />
 
             <Button
+                android:id="@+id/see_message_button"
                 android:text="@string/see"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/button_see"
                 android:layout_marginTop="10dp"
                 android:padding="10dp"
                 android:background="@color/colorButton"
@@ -86,6 +86,43 @@
                 android:layout_marginBottom="30dp"
                 android:padding="10dp"
                 android:id="@+id/button_change"
+                android:background="@color/colorSecondary"
+                android:drawableLeft="@android:drawable/ic_menu_preferences"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/new_password_textview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
+                android:text="@string/new_password_label"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/new_password_edittext"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:maxLines="1"
+                android:background="@color/light"
+                android:gravity="center_vertical"
+                android:hint="@string/new_password"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:layout_margin="4dp" />
+
+            <Button
+                android:id="@+id/new_password_button"
+                android:text="@string/new_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="30dp"
+                android:padding="10dp"
                 android:background="@color/colorSecondary"
                 android:drawableLeft="@android:drawable/ic_menu_preferences"
                 tools:ignore="RtlHardcoded" />
