@@ -1,82 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
+    android:overScrollMode="never"
+    android:scrollbars="none"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.student.myapplication.MainActivity">
-
-    <LinearLayout
-        android:orientation="vertical"
+    tools:context="com.example.student.myapplication.MainActivity" >
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="wrap_content">
 
-        <TextView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:padding="20dp"
-            android:textSize="35sp"
-            android:textAlignment="center"
-            android:text="@string/hello_world" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
-            android:text="@string/password_label"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="17sp" />
-
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:maxLines="1"
-            android:background="@color/light"
-            android:gravity="center_vertical"
-            android:hint="@string/password"
-            android:inputType="textPassword"
+            android:layout_height="fill_parent"
             android:padding="10dp"
-            android:layout_margin="4dp" />
+            tools:ignore="UselessParent">
 
-        <Button
-            android:text="@string/see"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/button_see"
-            android:layout_marginTop="5dp"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:background="@color/colorButton"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:padding="20dp"
+                android:textSize="35sp"
+                android:textAlignment="center"
+                android:text="@string/hello_world" />
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
-            android:text="@string/change_password_label"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="17sp" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
+                android:text="@string/password_label"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="17sp" />
 
-        <Button
-            android:text="@string/change_password_label"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:padding="10dp"
-            android:id="@+id/button_change"
-            android:textStyle="bold"
-            android:background="@color/colorButton" />
-    </LinearLayout>
-</RelativeLayout>
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:maxLines="1"
+                android:background="@color/light"
+                android:gravity="center_vertical"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:layout_margin="4dp" />
+
+            <Button
+                android:text="@string/see"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_see"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:background="@color/colorButton"
+                android:drawableLeft="@android:drawable/ic_menu_view"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
+                android:text="@string/change_password_label"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="17sp" />
+
+            <Button
+                android:text="@string/change_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="30dp"
+                android:padding="10dp"
+                android:id="@+id/button_change"
+                android:background="@color/colorSecondary"
+                android:drawableLeft="@android:drawable/ic_menu_preferences"
+                tools:ignore="RtlHardcoded" />
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>
