@@ -1,5 +1,6 @@
 package com.example.student.myapplication
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -26,6 +27,13 @@ class MainActivity : AppCompatActivity() {
 
         new_password_button.setOnClickListener {
             saveNewPassword()
+        }
+
+        change_password_button.setOnClickListener {
+            val intent = Intent(this, ChangePassword::class.java)
+            intent.putExtra("password", password)
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            startActivity(intent)
         }
 
         reset_button.setOnClickListener {
