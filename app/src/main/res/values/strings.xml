@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Valentina</string>
     <string name="hello_world">Hello world!</string>
 
     <string name="password">Password</string>
@@ -9,10 +9,13 @@
     <string name="old_password_label">Please enter your old password below:</string>
 
     <string name="new_password">New password</string>
-    <string name="new_password_label">Please enter your new password below:</string>
+    <string name="new_password_label">Please first enter your new password:</string>
 
     <string name="change_password">Change password</string>
-    <string name="change_password_label">Or you can also change your password:</string>
+    <string name="change_password_label">Or you can change your password:</string>
+
+    <string name="reset">Reset</string>
+    <string name="reset_label">Or reset password and message:</string>
 
     <string name="message">Message</string>
     <string name="change_message">Change message</string>
