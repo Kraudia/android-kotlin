@@ -1,9 +1,9 @@
 package com.example.student.myapplication
 
+import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
@@ -11,9 +11,8 @@ import org.jetbrains.anko.db.*
 import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity() {
-    var password: String? = null
-    var message: String? = null
-
+    var message: String = ""
+    var password: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,18 +21,19 @@ class MainActivity : AppCompatActivity() {
         init()
 
         see_message_button.setOnClickListener {
-            showMessage()
+            val pass = password_edittext.text.toString()
+            if (pass != "") showMessage(pass)
+            else  toast("Password cannot be empty.")
         }
 
         new_password_button.setOnClickListener {
-            saveNewPassword()
+            val pass = new_password_edittext.text.toString()
+            if (pass != "") saveNewPassword(pass)
+            else toast("New password cannot be empty.")
         }
 
         change_password_button.setOnClickListener {
-            val intent = Intent(this, ChangePassword::class.java)
-            intent.putExtra("password", password)
-            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            startActivity(intent)
+           goToChangePasswordActivity(password)
         }
 
         reset_button.setOnClickListener {
@@ -43,15 +43,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun init() {
         database.use {
-            password = select("ValentinaPassword").column("password").whereSimple("id = 1").limit(1).parseOpt(StringParser).toString()
-            message = select("ValentinaMessage").column("message").whereSimple("id = 1").limit(1).parseOpt(StringParser).toString()
+            password = select("Valentina").column("password").whereSimple("id = 1").limit(1).parseOpt(StringParser).toString()
+            message = select("Valentina").column("message").whereSimple("id = 1").limit(1).parseOpt(StringParser).toString()
         }
         database.close()
 
-//        toast(password.toString())
-//        toast(message.toString())
+        toast(password)
+        toast(message)
 
-        if (password.toString() != null.toString() && password.toString() != "") {
+        if ( password != null.toString() &&  password != "") {
             hello_layout.visibility = View.VISIBLE
             new_password_layout.visibility = View.GONE
         } else {
@@ -60,15 +60,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun goToChangePasswordActivity(password: String) {
+        val intent = Intent(this, ChangePassword::class.java)
+        intent.putExtra("password", password)
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        startActivityForResult(intent, 1);
+    }
+
     private fun reset() {
         alert("Are you sure you want to delete message and password?", "Reset") {
             positiveButton("YES") {
                 database.use {
-                    dropTable("ValentinaPassword", true)
-                    createTable("ValentinaPassword", true, "id" to INTEGER, "password" to TEXT)
-
-                    dropTable("ValentinaMessage", true)
-                    createTable("ValentinaMessage", true, "id" to INTEGER, "message" to TEXT)
+                    dropTable("Valentina", true)
+                    createTable("Valentina", true, "id" to INTEGER, "password" to TEXT, "message" to TEXT)
                 }
                 database.close()
 
@@ -78,36 +82,44 @@ class MainActivity : AppCompatActivity() {
                 toast("Data has been reset successfully.")
 
                 hello_layout.visibility = View.GONE
-                new_password_edittext.text = null
                 new_password_layout.visibility = View.VISIBLE
             }
+
             negativeButton("NO") {
                 toast("Okay. Nothing happened.")
             }
         }.show()
     }
 
-    private fun saveNewPassword() {
+    private fun saveNewPassword(newPassword: String) {
         database.use {
-            dropTable("ValentinaPassword", true)
-            createTable("ValentinaPassword", true, "id" to INTEGER, "password" to TEXT)
-            password = new_password_edittext.text.toString()
-            insert("ValentinaPassword", "password" to password, "id" to 1)
-            toast("Zapisano nowe hasło.")
+            dropTable("Valentina", true)
+            createTable("Valentina", true, "id" to INTEGER, "password" to TEXT, "message" to TEXT)
+            insert("Valentina", "password" to newPassword, "message" to "", "id" to 1)
+            password = select("Valentina").column("password").whereSimple("id = 1").limit(1).parseOpt(StringParser).toString()
+            message = select("Valentina").column("message").whereSimple("id = 1").limit(1).parseOpt(StringParser).toString()
         }
         database.close()
+
+        toast("Password has been saved.")
 
         hello_layout.visibility = View.VISIBLE
         new_password_layout.visibility = View.GONE
         new_password_edittext.text = null
     }
 
-    private fun showMessage() {
-        if (password_edittext.text.toString() != "" && password_edittext.text.toString() == password.toString()) {
-            toast("Success.")
-        } else {
-            toast("Wrong password.")
-        }
+    private fun showMessage(pass: String) {
+        if (pass != "" && password == pass) toast("Success.")
+        else toast("Wrong password.")
         password_edittext.text = null
+    }
+
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                password = data.getStringExtra("password")
+            }
+        }
     }
 }

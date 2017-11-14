@@ -18,13 +18,11 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "MyDatab
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        db.createTable("ValentinaMessage", true, "id" to INTEGER, "message" to TEXT)
-        db.createTable("ValentinaPassword", true, "id" to INTEGER, "password" to TEXT)
+        db.createTable("Valentina", true, "id" to INTEGER, "password" to TEXT, "message" to TEXT)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.dropTable("ValentinaMessage", true)
-        db.dropTable("ValentinaPassword", true)
+        db.dropTable("Valentina", true)
     }
 }
 
