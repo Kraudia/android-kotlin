@@ -22,7 +22,9 @@ class MainActivity : AppCompatActivity() {
 
         see_message_button.setOnClickListener {
             val pass = password_edittext.text.toString()
-            if (pass != "") showMessage(pass)
+            val mess = message.toString()
+
+            if (pass != "") showMessage(pass, mess)
             else  toast("Password cannot be empty.")
         }
 
@@ -63,6 +65,7 @@ class MainActivity : AppCompatActivity() {
     private fun goToChangePasswordActivity(password: String) {
         val intent = Intent(this, ChangePassword::class.java)
         intent.putExtra("password", password)
+        intent.putExtra("message", message)
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         startActivityForResult(intent, 1);
     }
@@ -108,10 +111,20 @@ class MainActivity : AppCompatActivity() {
         new_password_edittext.text = null
     }
 
-    private fun showMessage(pass: String) {
-        if (pass != "" && password == pass) toast("Success.")
+    private fun showMessage(pass: String, mess: String) {
+        if (pass == "") toast("Please enter your password.")
+        else if (password == pass) goToMessageViewActivity(pass, mess)
         else toast("Wrong password.")
         password_edittext.text = null
+    }
+
+    fun goToMessageViewActivity(pass: String, mess: String) {
+        toast("Success.")
+        val intent = Intent(this, MessageView::class.java)
+        intent.putExtra("password", pass)
+        intent.putExtra("message", mess)
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        startActivityForResult(intent, 1);
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
@@ -119,6 +132,7 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 password = data.getStringExtra("password")
+                message = data.getStringExtra("message")
             }
         }
     }

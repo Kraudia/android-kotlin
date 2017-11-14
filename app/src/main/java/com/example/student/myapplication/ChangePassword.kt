@@ -9,6 +9,7 @@ import org.jetbrains.anko.toast
 
 class ChangePassword : Activity() {
     var password: String? = null
+    var message: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,6 +18,7 @@ class ChangePassword : Activity() {
         val bundle = intent.extras
         if (bundle != null) {
             password = bundle.getString("password")
+            message = bundle.getString("message")
         }
 
         toast(password.toString())
@@ -42,28 +44,27 @@ class ChangePassword : Activity() {
     }
 
     private fun changePassword() {
-        if (old_password_change_edittext.text.toString() != ""
-                && old_password_change_edittext.text.toString() == password.toString()
-                && new_password_change_edittext.text.toString() != "") {
+        val old = old_password_change_edittext.text.toString()
+        val new = new_password_change_edittext.text.toString()
+
+        if (old == "" || new == "") toast("Fields cannot be empty.")
+        else if (old == password.toString()) {
+            password = new
+
             database.use {
-                dropTable("ValentinaPassword", true)
-                createTable("ValentinaPassword", true, "id" to INTEGER, "password" to TEXT)
-                password = new_password_change_edittext.text.toString()
-                insert("ValentinaPassword", "password" to password, "id" to 1)
+                update("Valentina", "password" to password, "message" to "", "id" to 1).whereSimple("id = 1")
             }
             database.close()
 
             val intent = Intent()
-            intent.putExtra("password", password)
+            intent.putExtra("password", new)
+            intent.putExtra("message", message)
             setResult(RESULT_OK, intent);
             toast("Success.")
             finish()
+        } else toast("Wrong password. Fail ")
 
-            old_password_change_edittext.text = null
-            new_password_change_edittext.text = null
-
-        } else {
-            toast("Wrong password.")
-        }
+        old_password_change_edittext.text = null
+        new_password_change_edittext.text = null
     }
 }

@@ -14,11 +14,20 @@
     <string name="change_password">Change password</string>
     <string name="change_password_label">Or you can change your password:</string>
 
+    <string name="new_change_password">New password</string>
+    <string name="new_change_password_label">Change and enter your new password:</string>
+
     <string name="reset">Reset</string>
     <string name="reset_label">Or reset password and message:</string>
 
     <string name="message">Message</string>
+
     <string name="change_message">Change message</string>
+    <string name="change_message_label">You can edit your message below:</string>
+
+    <string name="save_message">Save message</string>
+    <string name="save_message_label">Please save your message below:</string>
+
     <string name="no_message">No message.</string>
     <string name="see">See message</string>
 
