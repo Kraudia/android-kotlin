@@ -6,10 +6,16 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.change_password.*
 import org.jetbrains.anko.db.*
 import org.jetbrains.anko.toast
+import se.simbio.encryption.Encryption
 
 class ChangePassword : Activity() {
     var password: String? = null
     var message: String = ""
+
+    val key = "YourKey"
+    val salt = "YourSalt"
+    val iv = ByteArray(16)
+    val encryption = Encryption.getDefault(key, salt, iv)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,16 +54,16 @@ class ChangePassword : Activity() {
         val new = new_password_change_edittext.text.toString()
 
         if (old == "" || new == "") toast("Fields cannot be empty.")
-        else if (old == password.toString()) {
-            password = new
+        else if (encryption.encryptOrNull(old) == password.toString()) {
+            password = encryption.encryptOrNull(new)
 
             database.use {
-                update("Valentina", "password" to password, "message" to "", "id" to 1).whereSimple("id = 1")
+                update("Valentina", "password" to password, "message" to message).whereSimple("id = 1").exec()
             }
             database.close()
 
             val intent = Intent()
-            intent.putExtra("password", new)
+            intent.putExtra("password", password)
             intent.putExtra("message", message)
             setResult(RESULT_OK, intent);
             toast("Success.")

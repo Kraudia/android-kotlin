@@ -9,10 +9,18 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.db.*
 import org.jetbrains.anko.toast
+import se.simbio.encryption.Encryption
+
+
 
 class MainActivity : AppCompatActivity() {
     var message: String = ""
     var password: String = ""
+
+    val key = "YourKey"
+    val salt = "YourSalt"
+    val iv = ByteArray(16)
+    val encryption = Encryption.getDefault(key, salt, iv)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,9 +57,6 @@ class MainActivity : AppCompatActivity() {
             message = select("Valentina").column("message").whereSimple("id = 1").limit(1).parseOpt(StringParser).toString()
         }
         database.close()
-
-        toast(password)
-        toast(message)
 
         if ( password != null.toString() &&  password != "") {
             hello_layout.visibility = View.VISIBLE
@@ -98,7 +103,7 @@ class MainActivity : AppCompatActivity() {
         database.use {
             dropTable("Valentina", true)
             createTable("Valentina", true, "id" to INTEGER, "password" to TEXT, "message" to TEXT)
-            insert("Valentina", "password" to newPassword, "message" to "", "id" to 1)
+            insert("Valentina", "password" to encryption.encryptOrNull(newPassword).toString(), "message" to "", "id" to 1)
             password = select("Valentina").column("password").whereSimple("id = 1").limit(1).parseOpt(StringParser).toString()
             message = select("Valentina").column("message").whereSimple("id = 1").limit(1).parseOpt(StringParser).toString()
         }
@@ -113,13 +118,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun showMessage(pass: String, mess: String) {
         if (pass == "") toast("Please enter your password.")
-        else if (password == pass) goToMessageViewActivity(pass, mess)
-        else toast("Wrong password.")
+        else if (password == encryption.encryptOrNull(pass)) {
+            toast("Success.")
+            goToMessageViewActivity(password, mess)
+        } else toast("Wrong password.")
         password_edittext.text = null
     }
 
     fun goToMessageViewActivity(pass: String, mess: String) {
-        toast("Success.")
         val intent = Intent(this, MessageView::class.java)
         intent.putExtra("password", pass)
         intent.putExtra("message", mess)
