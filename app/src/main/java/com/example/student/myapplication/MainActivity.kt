@@ -16,6 +16,7 @@ import se.simbio.encryption.Encryption
 class MainActivity : AppCompatActivity() {
     var message: String = ""
     var password: String = ""
+    var fail: Boolean = false
 
     val key = "YourKey"
     val salt = "YourSalt"
@@ -43,7 +44,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         change_password_button.setOnClickListener {
-           goToChangePasswordActivity(password)
+           if (fail == false) goToChangePasswordActivity(password)
+           else toast("You failed trying change password! You lost chance.")
         }
 
         reset_button.setOnClickListener {
@@ -71,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, ChangePassword::class.java)
         intent.putExtra("password", password)
         intent.putExtra("message", message)
+        intent.putExtra("fail", fail)
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         startActivityForResult(intent, 1);
     }
@@ -129,6 +132,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, MessageView::class.java)
         intent.putExtra("password", pass)
         intent.putExtra("message", mess)
+        intent.putExtra("fail", fail)
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         startActivityForResult(intent, 1);
     }
@@ -139,6 +143,7 @@ class MainActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 password = data.getStringExtra("password")
                 message = data.getStringExtra("message")
+                fail = data.getBooleanExtra("fail", fail)
             }
         }
     }

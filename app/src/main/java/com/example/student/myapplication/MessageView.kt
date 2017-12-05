@@ -11,6 +11,7 @@ import org.jetbrains.anko.toast
 class MessageView : AppCompatActivity() {
     var message: String = ""
     var password: String = ""
+    var fail: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +21,7 @@ class MessageView : AppCompatActivity() {
         if (bundle != null) {
             password = bundle.getString("password")
             message = bundle.getString("message")
+            fail = bundle.getBoolean("fail")
         }
 
         init(password, message)
@@ -48,6 +50,7 @@ class MessageView : AppCompatActivity() {
         val intent = Intent(this, ChangeMessage::class.java)
         intent.putExtra("password", pass)
         intent.putExtra("message", mess)
+        intent.putExtra("fail", fail)
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         startActivityForResult(intent, 1);
     }
@@ -70,6 +73,7 @@ class MessageView : AppCompatActivity() {
         val intent = Intent()
         intent.putExtra("message", message)
         intent.putExtra("password", password)
+        intent.putExtra("fail", fail)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

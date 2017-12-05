@@ -11,6 +11,7 @@ import se.simbio.encryption.Encryption
 class ChangePassword : Activity() {
     var password: String? = null
     var message: String = ""
+    var fail: Boolean = false
 
     val key = "YourKey"
     val salt = "YourSalt"
@@ -25,9 +26,8 @@ class ChangePassword : Activity() {
         if (bundle != null) {
             password = bundle.getString("password")
             message = bundle.getString("message")
+            fail = bundle.getBoolean("fail")
         }
-
-        toast(password.toString())
 
         change_password_submit_button.setOnClickListener {
             changePassword()
@@ -65,10 +65,19 @@ class ChangePassword : Activity() {
             val intent = Intent()
             intent.putExtra("password", password)
             intent.putExtra("message", message)
+            intent.putExtra("fail", false)
             setResult(RESULT_OK, intent);
             toast("Success.")
             finish()
-        } else toast("Wrong password. Fail ")
+        } else {
+            val intent = Intent()
+            intent.putExtra("password", password)
+            intent.putExtra("message", message)
+            intent.putExtra("fail", true)
+            setResult(RESULT_OK, intent);
+            toast("Wrong password. Fail.")
+            finish()
+        }
 
         old_password_change_edittext.text = null
         new_password_change_edittext.text = null
