@@ -11,8 +11,6 @@ import org.jetbrains.anko.db.*
 import org.jetbrains.anko.toast
 import se.simbio.encryption.Encryption
 
-
-
 class MainActivity : AppCompatActivity() {
     var message: String = ""
     var password: String = ""

@@ -30,6 +30,8 @@
 
     <string name="no_message">No message.</string>
     <string name="see">See message</string>
+    <string name="see_fingerprint">See message using fingerprint</string>
+    <string name="see_fingerprint_label">Or use fingerprint instead password</string>
 
     <string name="back">Back</string>
     <string name="close">Close</string>
@@ -37,4 +39,9 @@
 
     <string name="fail_password_title">Fail</string>
     <string name="fail_password_message">Invalid password.</string>
+
+    <string name="touch_sensor_title">Fringerprint</string>
+    <string name="touch_sensor_label">Confirm fringerprint to continue.</string>
+    <string name="touch_sensor">Touch sensor</string>
+    <string name="notSupport">This devise does not support fingerprint technology.</string>
 </resources>
